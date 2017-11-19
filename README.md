@@ -8,7 +8,10 @@ We've partnered with an NGO based in Venezuela that has started to collect its o
 - Maria    
 
 ### General goal:    
-Use [Airtable](https://airtable.com/) to fix the data entry problem for convive.    
+Use [Airtable](https://airtable.com/) to fix the data entry problem for convive.     
+
+### Example data schema:   
+[Convive Data](https://drive.google.com/file/d/0B8_4WiAv5AbbNFc2VXRLdV9pUVU/view?usp=sharing)
 
 ### User stories:    
 - As a journalist I can enter data on my smartphone without being allowed to enter incorrect or missing data.   
