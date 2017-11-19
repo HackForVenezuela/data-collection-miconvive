@@ -16,5 +16,8 @@ The prosed architecture contains the following elements:
 
 This will make any changes made to the data be reflected in real-time on the visualization (cosider the existence of browser-based caching and GitHub caching, though). That makes the whole architecture quite simple.
 
+### GitHub Pages
+GitHub pages can be used to host this kind of files and having them available directly as a repostiory. One of its features is to have a specific domain name attached to it. For more information, check its documentation at [GitHub Pages](https://pages.github.com/).
+
 ### License
 This project is a derivate from this [repository](https://github.com/luiscape/hdxviz-nepal-community-survey). It is licensed under the MIT License, which is also included here.
