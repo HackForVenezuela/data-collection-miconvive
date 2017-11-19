@@ -26,7 +26,7 @@ git checkout visualization
 docker build -t miconvive .  
 
 # run docker 
-docker run -p 8000:3000 -t miconvive
+docker run -p 3000:8000 -t miconvive
 ```
 
 ### Architecture
