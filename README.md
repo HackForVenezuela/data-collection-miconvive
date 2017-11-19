@@ -4,6 +4,17 @@
 
 This is a sample visualization of a multi-variate dataset. The visualization uses `dc.js` to render a number of charts that are all linked to each other.
 
+### Usage
+For development, run an HTTP server locally. Here are a few examples unsing `npm` or `python`:
+
+```
+# Using Python 3
+$ python3 -m http.server
+
+# Using NPM (you'll need to install this first)
+$ http-server
+```
+
 ### Architecture
 This visualization is a static page that can be rendered by any modern browser. It uses JavaScript (ES5) create all the charts on the browser, not requiring any backend work. This means that this page can be served from any statis web-server, including [GitHub Pages](https://pages.github.com/) (which is free).
 
