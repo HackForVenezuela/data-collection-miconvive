@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+
+<head>
+    <!--
+
+    METADATA: ====================================
+
+    HTML metadata for the visualization. Important
+    SEO information goes in here.
+
+    ==============================================
+
+    -->
+    <title>Nepal | Community Perceptions Survey</title>
+    <meta charset="UTF-8">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+    <!--
+
+    STYLES: ========================================
+
+    Here we are loading CSS files for both the charts
+    and the page styles.
+
+    =================================================
+
+    -->
+    <link rel="stylesheet" type="text/css" href="http/css/vendor/bootstrap/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="http/css/style.css">
+    <link rel="stylesheet" type="text/css" href="http/css/dc.min.css">
+    <link rel="stylesheet" type="text/css" href="http/css/leaflet.css">
+    <link rel="stylesheet" type="text/css" href="http/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="http/css/pace.css">
+    <link rel="stylesheet" type="text/css" href="http/css/hint.min.css">
+    <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Raleway:700,400,200,100">
+    <!--
+
+    CHARTING LIBRARIES: ========================================
+
+    Here we load the latest version of D3.js, DC.js
+    and their dependencies.
+
+    ============================================================
+
+    -->
+    <script type="text/javascript" src="http/js/jquery.js"></script>
+    <script type="text/javascript" src="http/js/d3.min.js"></script>
+    <script type="text/javascript" src="http/js/queue.v1.min.js"></script>
+    <script type="text/javascript" src="http/js/topojson.js"></script>
+    <script type="text/javascript" src="http/js/crossfilter.min.js"></script>
+    <script type="text/javascript" src="http/js/dc.min.js"></script>
+    <script type="text/javascript" src="http/js/pace.min.js"></script>
+    <script type="text/javascript" src="http/js/leaflet.js"></script>
+    <script type="text/javascript" src="http/js/dc-leaflet.js"></script>
+    <script type="text/javascript" src="http/js/tooltip.js"></script>
+    <!--
+
+    LOADING DATA: ==============================================
+
+    Here we load some of the data directly into JavaScript's
+    namespace. Larger datasets are loaded directly by D3 (using
+    d3.json or d3.csv). However, to speed-up the process we
+    use this trick so that smaller datasets are available
+    as variables, without the need for parsing.
+
+    We are currently loading the following data:
+
+      - adm0.js: Nepal country contour.
+      - colorbrewer.js: a series of color arrays from Color Brewer 2.
+
+    ============================================================
+
+    -->
+    <script type="text/javascript" src="http/data/adm0.js"></script>
+    <script type="text/javascript" src="http/js/colorbrewer.js"></script>
+    <!--
+
+    APPLICATION: ================================================
+
+    Here we load the DC.js application. The application will
+    refer to the data loaded previously in this document,
+    and will generate the charts and maps dynamically using
+    element IDs.
+
+    ============================================================
+
+    -->
+    <script type="text/javascript" src="http/js/app.js"></script>
+</head>
+
+<body>
+    <!--
+
+    LAYOUT: ===================================================
+
+    This section organizes the elements of the document and
+    adds IDs that will be populated with dynamically generated
+    elements from app.js
+
+    ============================================================
+
+    -->
+    <div class="top-bar"></div>
+    <div class="container-fluid">
+        <div class="col-xs-4 sidebar pad2 whiteBackground">
+
+            <!--
+
+            SIDE PANNEL: =================================================
+
+            This side panel hosts the survey's demographic information.
+
+            ==============================================================
+            -->
+            <div class="bikes-panel">
+
+                <!-- HEADER -->
+                <div>
+                    <div style='padding-bottom: 20px;'>
+                        <a href="http://www.google.com">
+                            LOGO
+                        </a>
+                    </div>
+
+                    <h1 style="padding-bottom: 20px;">Example</h1>
+                    <p>
+                        Prototype visualization that uses `dc.js` for visualizing multivariate data. This is a derivate from the orginal work <a href="https://github.com/luiscape/hdxviz-nepal-community-survey">>Nepal: Community Perceptions Survey</a>. The original data is included for reference when developing this app.
+                    </p>
+
+                    <a class="btn btn-primary" href="http://www.google.com" target="_blank">Download Dataset</a>
+
+                    <a class="reset btn btn-primary" onclick="clearAllFilters();">Clear Selection</a>
+                </div>
+
+                <!-- CHARTS -->
+                <div class="row row-padding" style="padding-top: 20px;">
+                    <h4><strong>Population Demographics</strong></h4>
+                    <p>
+                        <span class="hint--bottom-right" data-hint="Caste/ethnicity">
+                            <span class="fa fa-info-circle"></span> <span><i>Ethnicity.</i></span>
+                        </span>
+                    </p>
+                    <div id="ethnicity_chart"></div>
+                </div>
+                <div class="row row-padding">
+                    <p>
+                        <span class="fa fa-info-circle"></span> <span><i>Occupation.</i></span>
+                    </p>
+                    <div id="occupation_chart"></div>
+                </div>
+                <div class="row row-padding">
+                    <p>
+                        <span class="fa fa-info-circle"></span> <span><i>Age.</i></span>
+                    </p>
+                    <div id="age_chart"></div>
+                </div>
+                <div class="row row-padding">
+                    <p>
+                        <span class="fa fa-info-circle"></span> <span><i>Gender.</i></span>
+                    </p>
+                    <div id="gender_chart"></div>
+                </div>
+
+            </div>
+        </div>
+        <!--
+
+        MAP AREA: =================================================
+
+        Here we render the map and the survey questions.
+
+        ============================================================
+
+        -->
+        <div class="pad2 main-pannel">
+
+            <div class="row map row-padding">
+                <div class="col-xs-9">
+                    <h3>Survey Responses Map</h3>
+                    <br/>
+                    <div id="map"></div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="row round-selector">
+                        <div id="count-info">
+                            <span id='status-number' class="filter-count status-number"></span>
+                            <br>responses selected.
+                        </div>
+                    </div>
+                    <div class="row round-selector">
+                        <span class="fa fa-angle-right"></span> <a onclick="filterRound(1);"><strong>Round 1</strong></a> | 1304 responses.
+                    </div>
+                    <div class="row round-selector">
+                        <span class="fa fa-angle-right"></span> <a onclick="filterRound(2);"><strong>Round 2</strong></a> | 1398 responses.
+                    </div>
+                    <div class="row round-selector">
+                        <span class="fa fa-angle-right"></span> <a onclick="filterRound(3);"><strong>Round 3</strong></a> | 1400 responses.
+                    </div>
+                    <div class="row round-selector">
+                        <span class="fa fa-angle-right"></span> <a onclick="filterRound(4);"><strong>Round 4</strong></a> | 1400 responses.
+                    </div>
+                    <div class="row round-selector">
+                        <span class="fa fa-angle-right"></span> <a onclick="filterRound(5);"><strong>Round 5</strong></a> | 1400 responses.
+                    </div>
+                    <div class="row round-selector">
+                        <span class="fa fa-angle-right"></span> <a onclick="filterRound(6);"><strong>Round 6</strong></a> | 1400 responses.
+                    </div>
+                    <div class="row round-selector" style="font-size: 10px; max-width: 200px">
+                        * When the number of respondents is too low that may potentially uncover the identification of survey respondents, the exact number of responses is omitted.
+                    </div>
+                </div>
+
+            </div>
+
+            <!--
+
+                3W: ====================================================
+
+                The 3W charts Who and What are out of place as follows.
+                This is a temporary solution that doesn't disrupt
+                the other charts. A better solution will very
+                likely come in place in the future.
+
+                =========================================================
+
+            -->
+
+            <div class="row row-padding">
+                <div style='padding-bottom:20px;'></div>
+                <h3>Who is Doing What Where</h3>
+                <div class="col-xs-6">
+                    <p>
+                        <span class="fa fa-info-circle"></span> <span><i>Who (top 15 organizations)</i></span>
+                    </p>
+                    <div id="who"></div>
+                </div>
+
+                <div class="col-xs-6">
+                    <p>
+                        <span class="fa fa-info-circle"></span> <span><i>What (top 15 categories)</i></span>
+                    </p>
+                    <div id="what"></div>
+                </div>
+            </div>
+
+            <div class="row row-padding">
+                <h3>Survey Responses</h3>
+                <div class="col-xs-6">
+                    <p>
+                        <span class="fa fa-info-circle"></span> <span><i>Are your main problems being addressed? <br/>(Answer on a scale of 1-5).</i></span>
+                    </p>
+                    <div id="A0JS"></div>
+                </div>
+
+                <div class="col-xs-6">
+                    <p>
+                        <span class="fa fa-info-circle"></span> <span><i>What is your biggest problem?<br/></i></span>
+                    </p>
+                    <div id="A1JS"></div>
+                </div>
+            </div>
+
+            <div class="row row-padding">
+                <div class="col-xs-6">
+                    <p>
+                        <span class="fa fa-info-circle"></span> <span><i>Are your main problems being addressed? <br/>(Answer on a scale of 1-5).</i></span>
+                    </p>
+                    <div id="B0JS"></div>
+                </div>
+
+                <div class="col-xs-6">
+                    <p>
+                        <span class="fa fa-info-circle"></span> <span><i>What is the top thing that you need information about?</i></span>
+                    </p>
+                    <div id="C1JS"></div>
+                </div>
+            </div>
+
+            <div class="row row-padding">
+                <div class="col-xs-6">
+                    <p>
+                        <span class="fa fa-info-circle"></span> <span><i>Are you satisfied with what NGOs are doing for you after the earthquake?<br/>(Answer on a scale of 1-5)</i></span>
+                    </p>
+                    <div id="D0JS"></div>
+                </div>
+
+                <div class="col-xs-6">
+                    <p>
+                        <span class="fa fa-info-circle"></span> <span><i>Is support provided in a fair way?<br/>(Answer on a scale of 1-5)</i></span>
+                    </p>
+                    <div id="E0JS"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
